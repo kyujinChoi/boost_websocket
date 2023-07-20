@@ -1,0 +1,3 @@
+/home/ckj/my_github/boost_websocket/server/sync/build/CMakeFiles/rebuild_cache.dir
+/home/ckj/my_github/boost_websocket/server/sync/build/CMakeFiles/edit_cache.dir
+/home/ckj/my_github/boost_websocket/server/sync/build/CMakeFiles/http-server-sync.dir

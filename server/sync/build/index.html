@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Websocket Example</title>
+  <script>
+
+    function revertConfig() {
+      document.getElementById("port").value = "2368";
+      document.getElementById("azimuth").value = "null";
+      document.getElementById("calc_zone").value = "6000";
+      document.getElementById("sig_dur").value = "1000000";
+      document.getElementById("gpio1").value = "/dev/rtdm/pinctrl-bcm2835/gpio3";
+      document.getElementById("gpio2").value = "/dev/rtdm/pinctrl-bcm2835/gpio21";
+
+      document.getElementById("product").textContent = "UNKNOWN";
+      document.getElementById("mode").textContent = "UNKNOWN";
+      document.getElementById("rpm").textContent = "UNKNOWN";
+
+      window.alert("Click Save Button");
+    }
+    
+  </script>
+</head>
+
+<body>
+  <!-- Main Container -->
+    <!-- Header -->
+    <header class="header">
+        <div class="col-2">
+            <canvas id="sample" width="300" hegith="200">
+        </div>
+    </header>
+</body>
+
+</html>

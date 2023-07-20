@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ckj/my_github/boost_websocket/server/sync/http_server_sync.cpp
+boost/beast/core.hpp
+-
+boost/beast/http.hpp
+-
+boost/beast/version.hpp
+-
+boost/asio/ip/tcp.hpp
+-
+boost/config.hpp
+-
+cstdlib
+-
+iostream
+-
+memory
+-
+string
+-
+thread
+-
+

@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/http-server-sync.dir/http_server_sync.o  -o http-server-sync  -lpthread 
