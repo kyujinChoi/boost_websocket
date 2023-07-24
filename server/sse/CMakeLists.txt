@@ -1,32 +1,27 @@
-#
-# Copyright (c) 2016-2017 Vinnie Falco (vinnie dot falco at gmail dot com)
-#
-# Distributed under the Boost Software License, Version 1.0. (See accompanying
-# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
-#
-# Official repository: https://github.com/boostorg/beast
-#
+cmake_minimum_required(VERSION 3.0.2)
+project(WebManager)
 
-# GroupSources(include/boost/beast beast)
-# GroupSources(example/http/server/sync "/")
-
-# add_executable (http-server-sync
-#     ${BOOST_BEAST_FILES}
-#     Jamfile
-#     http_server_sync.cpp
-# )
-
-# target_link_libraries(http-server-sync
-#     lib-asio
-#     lib-asio-ssl
-#     lib-beast)
-
-# set_property(TARGET http-server-sync PROPERTY FOLDER "example-http-server")
 find_package(OpenCV REQUIRED)
 find_package(Boost REQUIRED)
-add_executable (main
-    ${BOOST_BEAST_FILES}
-    main.cpp
+
+include_directories(include ${Boost_INCLUDE_DIR} ${OpenCV_INCLUDE_DIRS})
+
+
+set(EXCLUDE_PATHS
+    "CMakeFiles"
 )
-include_directories(${Boost_INCLUDE_DIR} ${OpenCV_INCLUDE_DIRS})
-target_link_libraries(main ${Boost_LIBRARIES} ${OpenCV_LIBRARIES} pthread)
+file(GLOB_RECURSE CPP_FILES "*.cpp")
+
+foreach(TMP_PATH ${CPP_FILES})
+    foreach(EXCLUDE_PATH ${EXCLUDE_PATHS})
+        string(FIND ${TMP_PATH} ${EXCLUDE_PATH} RESULT)
+
+        if(NOT ${RESULT} EQUAL -1)
+            list(REMOVE_ITEM CPP_FILES ${TMP_PATH})
+        endif()
+    endforeach(EXCLUDE_PATH)
+endforeach(TMP_PATH)
+
+# add_library(${PROJECT_NAME} SHARED ${CPP_FILES})
+add_executable(${PROJECT_NAME} ${BOOST_BEAST_FILES} ${CPP_FILES})
+target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${OpenCV_LIBRARIES} pthread)
