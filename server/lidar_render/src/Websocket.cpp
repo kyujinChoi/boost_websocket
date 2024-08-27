@@ -177,8 +177,27 @@ std::string Websocket::path_cat(beast::string_view base, beast::string_view path
 #endif
     return result;
 }
+#include <time.h>
+std::string generatePointCloudData() {
+    Json::Value root;
+    Json::StreamWriterBuilder writer;
+    
+    // Example data - replace with your actual point cloud data
+    srand(time(NULL));
+    for(int i = 0 ; i < 1000;i++)
+    {
+        Json::Value p;
+        p["x"] = rand() % 200;
+        p["y"] = rand() % 200;
+        p["z"] = rand() % 200;
+        root.append(p);
+    }
+
+    return Json::writeString(writer, root);
+}
 template <class Body, class Allocator> 
-http::message_generator Websocket::handleRequest(beast::string_view doc_root, http::request<Body, http::basic_fields<Allocator>> &&req)
+http::message_generator Websocket::handleRequest(beast::string_view doc_root, 
+                                    http::request<Body, http::basic_fields<Allocator>> &&req)
 {
     // Returns a bad request response
     auto const bad_request =
@@ -236,6 +255,14 @@ http::message_generator Websocket::handleRequest(beast::string_view doc_root, ht
     if (req.target().back() == '/')
         path.append("index.html");
 
+    if (req.target() == "/point-cloud") {
+        std::string data = generatePointCloudData();
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::content_type, "application/json");
+        res.body() = data;
+        res.prepare_payload();
+        return res;
+    }
     // Attempt to open the file
     beast::error_code ec;
     http::file_body::value_type body;

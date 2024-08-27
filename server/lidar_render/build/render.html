@@ -1,0 +1,72 @@
+﻿﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Point Cloud Visualization</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <script>
+        // Scene, Camera, Renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Create point cloud
+        const geometry = new THREE.BufferGeometry();
+        const material = new THREE.PointsMaterial({ color: 0x888888, size: 3 });
+        const points = new THREE.Points(geometry, material);
+        scene.add(points);
+
+        // Set camera position
+        camera.position.set(500, 500, 500);
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.25;
+        controls.enableZoom = true;
+
+        // Fetch point cloud data
+        async function updatePointCloud() {
+            try {
+                const response = await fetch('/point-cloud');
+                const data = await response.json();
+                const vertices = new Float32Array(data.length * 3);
+                data.forEach((point, index) => {
+                    vertices[index * 3] = point.x;
+                    vertices[index * 3 + 1] = point.y;
+                    vertices[index * 3 + 2] = point.z;
+                });
+                geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
+            } catch (error) {
+                console.error('Error fetching point cloud data:', error);
+            }
+        }
+
+        // Update point cloud every 100ms
+        setInterval(updatePointCloud, 100);
+
+        // Animate and render
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

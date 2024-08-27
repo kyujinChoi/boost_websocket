@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/rp/my_project/boost_websocket/server/lidar_render/build",
+  "command": "/usr/bin/c++ -I/home/rp/my_project/boost_websocket/server/lidar_render/include -isystem /usr/include/opencv4 -isystem /usr/include/jsoncpp -g -o CMakeFiles/lidar_render.dir/main.cpp.o -c /home/rp/my_project/boost_websocket/server/lidar_render/main.cpp",
+  "file": "/home/rp/my_project/boost_websocket/server/lidar_render/main.cpp"
+},
+{
+  "directory": "/home/rp/my_project/boost_websocket/server/lidar_render/build",
+  "command": "/usr/bin/c++ -I/home/rp/my_project/boost_websocket/server/lidar_render/include -isystem /usr/include/opencv4 -isystem /usr/include/jsoncpp -g -o CMakeFiles/lidar_render.dir/src/Websocket.cpp.o -c /home/rp/my_project/boost_websocket/server/lidar_render/src/Websocket.cpp",
+  "file": "/home/rp/my_project/boost_websocket/server/lidar_render/src/Websocket.cpp"
+}
+]

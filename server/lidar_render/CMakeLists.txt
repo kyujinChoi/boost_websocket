@@ -3,6 +3,7 @@ project(lidar_render)
 
 find_package(OpenCV REQUIRED)
 find_package(Boost REQUIRED)
+find_package(jsoncpp REQUIRED)
 
 include_directories(include ${Boost_INCLUDE_DIR} ${OpenCV_INCLUDE_DIRS})
 
@@ -24,4 +25,4 @@ endforeach(TMP_PATH)
 
 # add_library(${PROJECT_NAME} SHARED ${CPP_FILES})
 add_executable(${PROJECT_NAME} ${BOOST_BEAST_FILES} ${CPP_FILES})
-target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${OpenCV_LIBRARIES} pthread)
+target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${OpenCV_LIBRARIES} pthread jsoncpp_lib)
