@@ -1,25 +1,15 @@
 #include "Websocket.h"
 
-
+std::string Websocket::getLidarData() {
+    // LiDAR 데이터를 여기서 수집하여 문자열 형식으로 반환합니다.
+    // 여기서는 예시로 JSON 형식의 더미 데이터를 반환합니다.
+    return R"([{"x":100, "y":200}, {"x":150, "y":250}, {"x":200, "y":300}])";
+}
 void Websocket::run()
 {
     // acceptor_th = std::thread(acceptor_handler,this).detach();
     acceptor_th = std::thread(acceptor_handler,this);
-    try {
-        // WebSocket 메시지로 LiDAR 데이터를 전송
-        websocket::stream<tcp::socket> ws{std::move(socket)};
-        ws.accept();
-
-        while (true) {
-            // LiDAR 데이터를 WebSocket을 통해 전송
-            ws.write(net::buffer(lidarData));
-
-            // 적절한 지연 시간 (e.g., 100ms)을 줄 수 있음
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        }
-    } catch (std::exception const& e) {
-        std::cerr << "WebSocket Error: " << e.what() << std::endl;
-    }
+    
     return;
 }
 
@@ -67,15 +57,6 @@ void Websocket::handleSession(tcp::socket &socket, std::shared_ptr<std::string c
 
         // Send the response
         beast::write(socket, std::move(msg), ec);
-
-        if (ec)
-            return fail(ec, "write");
-        if (!keep_alive)
-        {
-            // This means we should close the connection, usually because
-            // the response indicated the "Connection: close" semantic.
-            break;
-        }
     }
     std::cout << "session End!\n";
     // Send a TCP shutdown

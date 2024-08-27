@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiDAR Data Visualization</title>
+    <style>
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="lidarCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('lidarCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // WebSocket 연결 생성
+        const ws = new WebSocket('ws://127.0.0.1:8080/lidar');
+
+        ws.onmessage = function(event) {
+            const lidarData = JSON.parse(event.data);
+
+            // 캔버스 지우기
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // LiDAR 데이터를 렌더링
+            lidarData.forEach(point => {
+                const x = point.x; // x 좌표
+                const y = point.y; // y 좌표
+                ctx.fillStyle = 'red';
+                ctx.fillRect(x, y, 2, 2); // 작은 사각형으로 점 그리기
+            });
+        };
+
+        ws.onclose = function() {
+            console.log('WebSocket connection closed');
+        };
+    </script>
+</body>
+</html>

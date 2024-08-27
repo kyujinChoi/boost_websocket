@@ -20,7 +20,8 @@
 #     lib-asio
 #     lib-asio-ssl
 #     lib-beast)
-
+cmake_minimum_required(VERSION 3.5)
+project(http-server-sync LANGUAGES CXX)
 # set_property(TARGET http-server-sync PROPERTY FOLDER "example-http-server")
 find_package(OpenCV REQUIRED)
 find_package(Boost REQUIRED)
